@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %}User Panel{% endblock %}
+{% block body %}
+
+<div class="container-fluid h-100">
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="position-fixed top-0 start-50 translate-middle-x" style="max-width: 300px; z-index: 1050;">
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  {% endif %}
+{% endwith %}
+
+  <div class="row h-100">
+    <!-- Navigation Column -->
+    <div class="h-100 container-fluid col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+      <!-- Admin Logo and Name -->
+      <div class="py-3 rounded my-3 bg-dark px-1 d-flex justify-content-center align-items-center shadow" style="height: 150px;">
+        <img
+          src="{{ url_for('static', filename='photos/user.jpg') }}"
+          alt="Admin Icon"
+          class="me-2"
+          style="max-height: 100%;"
+        />
+      </div>
+      <h4 class="fw-bold text-white text-center m-0">{%block name %}{%endblock%}</h4>
+      <p class="text-light text-center">{%block position%}{%endblock%}</p>
+      <div class="pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item border-bottom mt-3">
+            <a class="nav-link active text-white my-1" aria-current="page" href="{{ url_for('main_bp.user') }}">Profile</a>
+          </li>
+          <li class="nav-item border-bottom mt-3">
+            <a class="nav-link active text-white my-1" aria-current="page" href="{{ url_for('main_bp.userAttendance') }}">Attendances</a>
+          </li>
+          <li class="nav-item border-bottom mt-3">
+            <a class="nav-link active text-white my-1" aria-current="page" href="{{ url_for('main_bp.userSalary') }}">Salary</a>
+          </li>
+          <li class="nav-item border-bottom mt-3">
+            <a class="nav-link active text-white my-1" aria-current="page" href="{{ url_for('main_bp.userLeaves') }}">Leaves</a>
+          </li>
+          <!-- Add more navigation links as needed -->
+        </ul>
+      </div>
+      <div class="mt-3 mb-5">
+        <div class="row align-items-center mb-5">
+          <div class="col-8">
+            <button class="btn w-100 text-white text-start">
+              <a class="nav-link text-white" href="{{ url_for('auth_bp.login') }}">Log Out</a>
+            </button>
+          </div>
+          <div class="col-2">
+            <img
+            src="{{ url_for('static', filename='photos/logout.png') }}"
+            alt="Admin Icon"
+            class="me-2"
+            style="max-height: 20px"
+          />
+          </div>
+        </div>
+        
+      </div>
+      <!-- This pushes the content to the bottom -->
+    </div>
+    <!-- Main Content Column -->
+    <main class="col-md-9 bg-light ms-sm-auto col-lg-10 px-md-4">
+      <div class="container my-2">
+        <div class="d-flex justify-content-end align-items-center">
+          <div class="ms-2">
+            <p class="me-2 mt-3 fw-bold">{%block email %}{%endblock%}</p>
+          </div>
+          <div class="dropdown">
+            <img src="{{ url_for('static', filename='photos/user.png') }}" alt="Button" class=" border-2 border-dark rounded-circle dropdown-toggle" style="width: 40px; height: 40px;" data-bs-toggle="dropdown">
+            <ul class="dropdown-menu">
+              <li>
+                <button class="btn border-bottom w-100 text-start">
+                  <a class="nav-link" href="{{ url_for('main_bp.change_password') }}">Change Password</a>
+                </button>
+              </li>
+              <li>
+                  <button class="btn w-100 text-start">
+                    <a class="nav-link" href="{{ url_for('auth_bp.login') }}">Log Out</a>
+                  </button>
+              </li>
+            </ul>
+          </div>        
+        </div>
+      </div>
+      <div class="container-fluid mt-4">
+        <!-- Content goes here -->
+        </div>
+        {% block main %}{% endblock %}
+        <!-- Add more content here -->
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-EHDT4qnt1KiJbJd8R72uDffgmdvGLagI7pfjn1rH0YqldF5MZrPyGlkcy1FRC/YlQzrZn+NNdqptN9q9mHE6Xw==" crossorigin="anonymous"></script>
+
+<style>
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .sidebar {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .sidebar h4 {
+    font-size: 1.2rem;
+    color: #333;
+  }
+  .nav-link {
+    font-size: 1rem;
+  }
+</style>
+
+<script>
+  const employeeDropdown = document.getElementById('employeeDropdown');
+  employeeDropdown.addEventListener('show.bs.collapse', function () {
+    document.querySelector('.sidebar').style.height = 'auto';
+  });
+  employeeDropdown.addEventListener('hidden.bs.collapse', function () {
+    document.querySelector('.sidebar').style.height = '100%';
+  });
+
+  const reportDropdown = document.getElementById('reportDropdown');
+  reportDropdown.addEventListener('show.bs.collapse', function () {
+    document.querySelector('.sidebar').style.height = 'auto';
+  });
+  reportDropdown.addEventListener('hidden.bs.collapse', function () {
+    document.querySelector('.sidebar').style.height = '100%';
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'Admin.html' %}
+
+{% block title %}Payment Details{% endblock %}
+
+{% block name %}{{ user.name }}{% endblock %}
+
+{% block position %}{{ user.position }}{% endblock %}
+
+{% block email %}{{ user.email }}{% endblock %}
+
+{% block main %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="position-fixed top-0 start-50 translate-middle-x" style="max-width: 300px; z-index: 1050">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          {% for message in messages %} 
+            {{ message }} 
+          {% endfor %}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Payroll Panel</h1>
+  <h4>Filter by Month & Year:</h4>
+  <div class="d-flex justify-content-left">
+    <form method="GET" action="{{ url_for('main_bp.filter_salary') }}">
+      <div class="input-group mb-3">
+        <input
+          type="month"
+          class="form-control mx-1 rounded border border-black"
+          id="month_year"
+          name="month_year"
+          max="2024-05"
+          required
+        />
+        <button class="btn btn-dark mx-1 rounded" type="submit">Filter</button>
+      </div>
+    </form>
+  </div>
+
+  <h3>Payment Details for {{ selected_month }}, {{ selected_year }}</h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">SL</th>
+          <th scope="col">Employee Name</th>
+          <th scope="col">Month</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Overtime</th>
+          <th scope="col">Net Salary</th>
+          <th scope="col">Payment Date</th>
+          <th scope="col">Payment Type</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sal in salary %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ sal.employee.name }}</td>
+          <td>{{ sal.month }}, {{ sal.year }}</td>
+          <td>{{ sal.salary | round(2)}}</td>
+          <td>{{ sal.bonus | round(2)}}</td>
+          <td>{{ (sal.salary + sal.bonus - sal.deduction) | round(2) }}</td>
+          <td>{{ sal.payment_date }}</td>
+          <td>
+            <form action="{{ url_for('main_bp.makePayment') }}" method="POST" class="mb-3">
+              <input type="hidden" name="sal_id" value="{{ sal.id }}" />
+              <button type="submit" class="btn btn-light shadow">{{ sal.payment_method }}</button>
+            </form>
+          </td>
+          <td>
+            <form action="{{ url_for('main_bp.paymentReport') }}" method="POST" class="mb-3">
+              <input type="hidden" name="sal_id" value="{{ sal.id }}" />
+              <button type="submit" class="btn btn-dark">
+                Report
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

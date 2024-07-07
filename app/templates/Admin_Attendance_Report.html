@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance Report for {{ selected_date.strftime('%B %d, %Y') }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Working Hour</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idx, attendance in todays_attendance %}
+            <tr>
+                <td>{{ idx }}</td>
+                <td>{{ attendance.employee.name }}</td>
+                <td>{{ attendance.employee.position }}</td>
+                <td>{{ attendance.entry_time.strftime('%I:%M %p') }}</td>
+                <td>{{ attendance.exit_time.strftime('%I:%M %p') if attendance.exit_time else '' }}</td>
+                <td>
+                    {% if attendance.working_hour is not none %}
+                        {{ attendance.working_hour // 3600 }} hr {{ (attendance.working_hour % 3600) // 60 }} min
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

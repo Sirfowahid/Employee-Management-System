@@ -1,0 +1,37 @@
+{% extends 'User.html' %}
+{% block title %}User Salary{% endblock %}
+{% block name %}{{ user.name }}{% endblock %}
+{% block position %}{{ user.position }}{% endblock %}
+{% block email %}{{ user.email }}{% endblock %}
+
+{% block main %}
+<h1>My Salary</h1>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Month</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Overtime</th>
+        <th scope="col">Net Salary</th>
+        <th scope="col">Payment Date</th>
+        <th scope="col">Payment Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for salary in user_salary %}
+      <tr>
+        <td>{{ salary.month }}</td> <!-- Month -->
+        <td>{{ salary.salary | round(2) }}</td> <!-- Salary -->
+        <td>{{ salary.bonus | round(2)}}</td> <!-- Bonus -->
+        <td>{{ (salary.salary + salary.bonus - salary.deduction) | round(2)}}</td> <!-- Net Salary -->
+        <td>{{ salary.payment_date }}</td> <!-- Payment Date -->
+        <td>{{ salary.payment_method }}</td> <!-- Payment Type -->
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'Admin.html' %}
+{% block title %}Add Employee{% endblock %}
+{% block name %}{{ user.name }}{% endblock %}
+{%block position%}{{user.position}}{%endblock%}
+{% block email %}{{ user.email }}{% endblock %}
+{% block main %}
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">Add Employee</h1>
+          <form method="POST" action="{{ url_for('main_bp.addEmployee') }}">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="isAdmin" class="form-label">Admin Status</label>
+                  <select class="form-select" id="isAdmin" name="isAdmin" required>
+                    <option selected disabled>Select admin status</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter employee name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="position" class="form-label">Position</label>
+                  <select class="form-select" id="position" name="position" required>
+                    <option selected disabled>Select position</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Software Developer">Software Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="Quality Assurance Engineer">Quality Assurance Engineer</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="UI/UX Designer">UI/UX Designer</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="Technical Lead">Technical Lead</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="department" class="form-label">Department</label>
+                  <select class="form-select" id="department" name="department" required>
+                    <option selected disabled>Select department</option>
+                    <option value="Development">Development</option>
+                    <option value="Quality Assurance (QA)">Quality Assurance (QA)</option>
+                    <option value="Design (UI/UX)">Design (UI/UX)</option>
+                    <option value="Product Management">Product Management</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="salary" class="form-label">Salary</label>
+                  <input type="number" min=0 class="form-control" id="salary" name="salary" placeholder="Enter employee salary" required>
+                </div>
+                <div class="mb-3">
+                  <label for="status" class="form-label">Status</label>
+                  <select class="form-select" id="status" name="status" required>
+                    <option selected disabled>Select status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-dark">Add Employee</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'Admin.html' %}
+{% block title %}Edit Payment Details{% endblock %}
+{% block name %}{{ user.name }}{% endblock %}
+{% block position %}{{ user.position }}{% endblock %}
+{% block email %}{{ user.email }}{% endblock %}
+{% block main %}
+
+<h1 class="mt-3">Edit Payment Details</h1>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Employee Name: {{ salary.employee.name }}</h2>
+      <form method="POST" action="{{ url_for('main_bp.editPaymentDetails',salary_id=salary.id) }}">
+        <div class="mb-3">
+          <label for="salary" class="form-label">Salary</label>
+          <input type="text" class="form-control" id="salary" name="salary" value="{{ salary.salary | round(2) }}">
+        </div>
+        <div class="mb-3">
+          <label for="overtime" class="form-label">Overtime</label>
+          <input type="text" class="form-control" id="overtime" name="overtime" value="{{ salary.bonus | round(2) }}">
+        </div>
+        <div class="mb-3">
+          <label for="deductions" class="form-label">Deductions</label>
+          <input type="text" class="form-control" id="deductions" name="deductions" value="{{ salary.deduction | round(2) }}">
+        </div>
+        <div class="mb-3">
+          <label for="paymentDate" class="form-label">Payment Date</label>
+          <input required type="date" class="form-control" id="paymentDate" name="paymentDate">
+        </div>
+        <div class="mb-3">
+          <label for="paymentType" class="form-label">Payment Type</label>
+          <select class="form-select" id="paymentType" name="paymentType">
+            <option selected>Not Paid</option>
+            <option>Cheque</option>
+            <option>Cash</option>
+          </select>
+        </div>
+        <button type="submit" class="px-2 btn btn-dark">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'User.html' %}
+{% block title %}Leave List{% endblock %}
+
+{%block name%}{{user.name}}{%endblock%}
+{%block position%}{{user.position}}{%endblock%}
+{%block email%}{{user.email}}{%endblock%}
+{% block main %}
+<div class="row align-items-center justify-content-between">
+  <div class="col-auto">
+      <h1 class="mt-4 mb-4">My Leaves</h1>
+  </div>
+  <div class="col-auto">
+      <form action="{{ url_for('main_bp.leave_request') }}" method="POST">
+          <input type="hidden" name="user_id" value="{{ user.id }}">
+          <button type="submit" class="btn btn-dark">Leave Request</button>
+      </form>
+  </div>
+</div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Leave Type</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Available Leaves</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leave in leaves %}
+        <tr>
+          <td>{{ leave.leave_type }}</td>
+          <td>{{ leave.reason }}</td>
+          <td>{{ leave.start_date }}</td>
+          <td>{{ leave.end_date }}</td>
+          <td>{{ leave.available_leaves }}</td>
+          <td style="color: {% if leave.status == 'Pending' %}orange{% elif leave.status == 'Approved' %}green{% elif leave.status == 'Rejected' %}red{% endif %}">{{ leave.status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'Admin.html' %}
+{% block title %}Leave Requests{% endblock %}
+{% block name %}{{ user.name }}{% endblock %}
+{% block position %}{{ user.position }}{% endblock %}
+{% block email %}{{ user.email }}{% endblock %}
+{% block main %}
+
+<h1>Leave Request List</h1>
+<h4>Filter by Month & Year:</h4>
+<div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-left">
+    <form method="GET" action="{{ url_for('main_bp.filter_leave_requests') }}">
+      <div class="input-group mb-3">
+        <input
+          type="month"
+          class="form-control mx-1 rounded border border-black"
+          id="month_year"
+          name="month_year"
+          max="2024-05"
+          required
+        />
+
+        <button class="btn btn-dark mx-1 rounded" type="submit">Filter</button>
+      </div>
+    </form>
+  </div>
+  <div class="d-flex">
+    {% if selected_month and selected_year %}
+    <form action="{{ url_for('main_bp.leaveRequestReport') }}" method="POST">
+      <input type="hidden" name="month" value="{{ selected_month }}" />
+      <input type="hidden" name="year" value="{{ selected_year }}" />
+      <button type="submit" class="btn btn-dark mb-3">Report</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<h3>Leave request of {{ selected_month }}, {{ selected_year }}</h3>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Serial No</th>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Leave Type</th>
+        <th scope="col">Reason</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Available Leaves</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for leave_request in leave_requests %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ leave_request.employee.name }}</td>
+        <td>{{ leave_request.leave_type }}</td>
+        <td>{{ leave_request.reason }}</td>
+        <td>{{ leave_request.start_date }}</td>
+        <td>{{ leave_request.end_date }}</td>
+        <td>{{ leave_request.available_leaves }}</td>
+        <td
+          style="color: {% if leave_request.status == 'Pending' %}orange{% elif leave_request.status == 'Approved' %}green{% elif leave_request.status == 'Rejected' %}red{% endif %}"
+        >
+          {{ leave_request.status }}
+        </td>
+        <td>
+          <form
+            action="{{ url_for('main_bp.approve_leave_request') }}"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="user_id"
+              value="{{ leave_request.employee_id }}"
+            />
+            <button type="submit" class="btn btn-sm btn-dark">Approve</button>
+          </form>
+          <form
+            action="{{ url_for('main_bp.reject_leave_request') }}"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="user_id"
+              value="{{ leave_request.employee_id }}"
+            />
+            <button type="submit" class="btn btn-sm btn-outline-dark">
+              Reject
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

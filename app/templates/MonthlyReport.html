@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h2, h3, h4 {
+            color: #000000;
+        }
+        th {
+            background-color: #007bff;
+            color: #000000;
+        }
+        .employee-details, .attendances, .salary-details {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container align-items-center">
+        <h2 class="mb-4 text-center border-dark  border-bottom">Monthly Report</h2>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Report Month:</strong> {{ report_month }}</p>
+                <p><strong>Report Year:</strong> {{ report_year }}</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p><strong>Report Generated On:</strong> {{ generated_date }}</p>
+            </div>
+        </div>
+
+        <div class="employee-details mb-4">
+            <h3 class="border-dark border-bottom text-center">Employee Details</h3>
+            <h4><strong>Name:</strong> {{ employee.name }}</h4>
+            <p><strong>Position:</strong> {{ employee.position }}</p>
+            <p><strong>Email:</strong> {{ employee.email }}</p>
+        </div>
+
+        <div class="attendances">
+            <h3 class="text-center">Attendance of {{report_month}} {{report_year}}</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Working Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in attendances %}
+                    <tr>
+                        <td>{{ attendance.entry_time.strftime("%Y-%m-%d") }}</td>
+                        <td>{{ attendance.entry_time.strftime("%H:%M:%S") }}</td>
+                        <td>{{ attendance.exit_time.strftime("%H:%M:%S") if attendance.exit_time else '' }}</td>
+                        <td>
+                            {% if attendance.working_hour is not none %}
+                                {{ attendance.working_hour // 3600 }} hr {{ (attendance.working_hour % 3600) // 60 }} min
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td> </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p><strong></p>
+        </div>
+
+        <div class="container salary-details mb-4">
+            <h3 class="border-dark text-center border-bottom mb-4">Salary Details</h3>
+            <p><strong>Salary:</strong> {{ salary.salary | round(2)}} Taka Only</p>
+            <p><strong>Overtime:</strong> {{ salary.bonus | round(2)}} Taka Only</p>
+            <p><strong>Total Salary:</strong> {{ (salary.salary + salary.bonus - salary.deduction) | round(2) }} Taka Only</p>
+        </div>
+
+        <!-- Add other info as needed -->
+
+    </div>
+
+    <!-- Bootstrap Bundle JS (Bootstrap JS + Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

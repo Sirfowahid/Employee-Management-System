@@ -1,1 +1,2 @@
-# Employee-Management-System
+# Flask
+Basic Project Structure

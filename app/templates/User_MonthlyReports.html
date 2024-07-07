@@ -1,0 +1,9 @@
+{% extends 'User.html' %}
+{% block title %}Monthly Report{% endblock %}
+
+{%block name%}{{user.name}}{%endblock%}
+{%block position%}{{user.position}}{%endblock%}
+{%block email%}{{user.email}}{%endblock%}
+{% block main %}
+<h1>My Monthly Reports</h1>
+{% endblock %}

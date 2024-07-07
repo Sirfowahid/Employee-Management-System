@@ -1,0 +1,65 @@
+{% extends 'User.html' %}
+{% block title %}User Profile{% endblock %}
+
+{% block name %}{{ user.name }}{% endblock %}
+{% block position %}{{ user.position }}{% endblock %}
+{% block email %}{{ user.email }}{% endblock %}
+{% block main %}
+<div class="container mt-4">
+  <div class="row align-items-center justify-content-between">
+      <div class="col-auto">
+          <h1 class="mt-4 mb-4">Welcome {{ user.name }}</h1>
+      </div>
+      <div class="col-auto">
+          <div class="row align-items-center">
+              <div class="col">
+                  <form action="{{ url_for('main_bp.give_attendance') }}" method="POST" class="mb-3">
+                      <input type="hidden" name="user_id" value="{{ user.id }}">
+                      <button type="submit" class="btn btn-dark mr-2">Check In</button>
+                  </form>
+              </div>
+              <div class="col">
+                  <form action="{{ url_for('main_bp.check_out') }}" method="POST">
+                      <input type="hidden" name="user_id" value="{{ user.id }}">
+                      <button type="submit" class="btn btn-outline-dark">Check Out</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Personal Details
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ user.name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Department:</strong> {{ user.department }}</p>
+                    <p><strong>Position:</strong> {{ user.position }}</p>
+                    <p><strong>Joining Date:</strong> {{ user.joining_date }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {% if salary %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    Salary Details
+                </div>
+                <div class="card-body">
+                    <p><strong>Salary:</strong> {{ salary.salary | round(2) }} Taka</p>
+                    <p><strong>Overtime:</strong> {{ salary.bonus | round(2) }} Taka</p>
+                    
+                    <p><strong>Total Earnings:</strong> {{ (salary.salary + salary.bonus - salary.deduction) | round(2) }} Taka</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

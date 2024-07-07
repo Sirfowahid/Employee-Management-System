@@ -1,0 +1,86 @@
+{% extends 'Admin.html' %}
+{% block title %}Update Employee{% endblock %}
+{% block name %}{{ user.name }}{% endblock %}
+{% block position %}{{ user.position }}{% endblock %}
+{% block email %}{{ user.email }}{% endblock %}
+{% block main %}
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">Update Employee</h1>
+          <form method="POST" action="{{ url_for('main_bp.updateEmployee', id=employee.id) }}">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="isAdmin" class="form-label">Admin Status</label>
+                  <select class="form-select" id="isAdmin" name="isAdmin" required>
+                    <option value="0" {% if not employee.is_admin %} selected {% endif %}>No</option>
+                    <option value="1" {% if employee.is_admin %} selected {% endif %}>Yes</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter employee name" required value="{{ employee.name }}">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required value="{{ employee.email }}">
+                </div>
+                
+              </div>
+              <div class="col-md-6">
+                
+                
+                <div class="mb-3">
+                  <label for="department" class="form-label">Department</label>
+                  <select class="form-select" id="department" name="department" required>
+                    <option selected disabled>Select department</option>
+                    <option value="Development" {% if employee.department == 'Development' %} selected {% endif %}>Development</option>
+                    <option value="Quality Assurance (QA)" {% if employee.department == 'Quality Assurance (QA)' %} selected {% endif %}>Quality Assurance (QA)</option>
+                    <option value="Design (UI/UX)" {% if employee.department == 'Design (UI/UX)' %} selected {% endif %}>Design (UI/UX)</option>
+                    <option value="Product Management" {% if employee.department == 'Product Management' %} selected {% endif %}>Product Management</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="position" class="form-label">Position</label>
+                  <select class="form-select" id="position" name="position" required>
+                    <option selected disabled>Select position</option>
+                    <option value="Software Engineer" {% if employee.position == 'Software Engineer' %} selected {% endif %}>Software Engineer</option>
+                    <option value="Software Developer" {% if employee.position == 'Software Developer' %} selected {% endif %}>Software Developer</option>
+                    <option value="Frontend Developer" {% if employee.position == 'Frontend Developer' %} selected {% endif %}>Frontend Developer</option>
+                    <option value="Backend Developer" {% if employee.position == 'Backend Developer' %} selected {% endif %}>Backend Developer</option>
+                    <option value="Full Stack Developer" {% if employee.position == 'Full Stack Developer' %} selected {% endif %}>Full Stack Developer</option>
+                    <option value="Quality Assurance Engineer" {% if employee.position == 'Quality Assurance Engineer' %} selected {% endif %}>Quality Assurance Engineer</option>
+                    <option value="DevOps Engineer" {% if employee.position == 'DevOps Engineer' %} selected {% endif %}>DevOps Engineer</option>
+                    <option value="UI/UX Designer" {% if employee.position == 'UI/UX Designer' %} selected {% endif %}>UI/UX Designer</option>
+                    <option value="Product Manager" {% if employee.position == 'Product Manager' %} selected {% endif %}>Product Manager</option>
+                    <option value="Technical Lead" {% if employee.position == 'Technical Lead' %} selected {% endif %}>Technical Lead</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="salary" class="form-label">Salary</label>
+                  <input type="text" class="form-control" id="salary" name="salary" placeholder="Enter employee salary" required value="{{ employee.salary }}">
+                </div>
+                <div class="mb-3">
+                  <label for="status" class="form-label">Status</label>
+                  <select class="form-select" id="status" name="status" required>
+                    <option value="Active" {% if employee.status == "Active" %} selected {% endif %}>Active</option>
+                    <option value="Inactive" {% if employee.status == "Inactive" %} selected {% endif %}>Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-dark">Update Employee</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

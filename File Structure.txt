@@ -1,0 +1,23 @@
+project/
+│
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── database/
+│   │   ├── __init__.py
+│   │   └── models.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   └── auth.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── index.html
+│   │   └── ...
+│   └── static/
+│       ├── css/
+│       ├── js/
+│       ├── photos/
+│       └── ...
+├── run.py
+└── requirements.txt

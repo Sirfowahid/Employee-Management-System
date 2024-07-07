@@ -1,0 +1,107 @@
+{% extends 'Admin.html' %} 
+{% block title %}Dashboard{% endblock %} 
+{% block name %}{{ user.name }}{% endblock %} 
+{%block position%}{{user.position}}{%endblock%} 
+{% block email %}{{ user.email }}{%  endblock %} 
+
+{% block main %}
+
+<div class="container mt-4">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+      <h1 class="mt-4 mb-4">Dashboard</h1>
+    </div>
+    <div class="col-auto">
+      <div class="row align-items-center">
+        <div class="col">
+          <form
+            action="{{ url_for('main_bp.give_attendance') }}"
+            method="POST"
+            class="mb-3"
+          >
+            <input type="hidden" name="user_id" value="{{ user.id }}" />
+            <button type="submit" class="btn btn-dark mr-2">Check In</button>
+          </form>
+        </div>
+        <div class="col">
+          <form action="{{ url_for('main_bp.check_out') }}" method="POST">
+            <input type="hidden" name="user_id" value="{{ user.id }}" />
+            <button type="submit" class="btn btn-outline-dark">Check Out</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">Total Users</div>
+        <div class="card-body">
+          <h5 class="card-title py-2">{{ userslen }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">Total Present</div>
+        <div class="card-body">
+          <h5 class="card-title py-2">{{ total_present }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">Total Absent</div>
+        <div class="card-body">
+          <h5 class="card-title py-2">{{ userslen -  total_present }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <h3 class="mb-4 text-center">Today's Attendance</h3>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">SL</th>
+              <th scope="col">Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Entry Time</th>
+              <th scope="col">Exit Time</th>
+              <th scope="col">Working Hour</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for attendance in todays_attendance %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ attendance.employee.name }}</td>
+              <td>{{ attendance.employee.position }}</td>
+              <td>{{ attendance.entry_time.strftime('%I:%M %p') }}</td>
+              <td>
+                {{ attendance.exit_time.strftime('%I:%M %p') if attendance.exit_time else '' }}
+              </td>
+              <td>
+                {% if attendance.working_hour %}
+                  {{ attendance.working_hour // 3600 }} hr {{ (attendance.working_hour % 3600) // 60 }} min
+                {% else %}
+                  N/A
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}
