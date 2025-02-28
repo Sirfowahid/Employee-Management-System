@@ -77,6 +77,14 @@ The Employee Management System is a web application built using Flask, allowing 
 ## User Interface
 ### Dashboard
 ![Dashboard](demo/Picture1.png)
+### Employee Details
+![Dashboard](demo/Picture2.png)
+### Employee List
+![Dashboard](demo/Picture3.png)
+### Leave Request
+![Dashboard](demo/Picture4.png)
+### Payroll
+![Dashboard](demo/Picture5.png)
 
 ## Contributing
 1. Fork the repository
