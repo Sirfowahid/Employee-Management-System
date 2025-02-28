@@ -8,8 +8,8 @@ with app.app_context():
     db.create_all()
     '''
     admin = Employee(
-        name='Effat Ara Efa',
-        email='effatefa38@gmail.com',
+        name='Mehedi',
+        email='mehedii2912@gmail.com',
         password='1223',
         position='Owner',
         department='Administrator',
