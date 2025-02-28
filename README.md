@@ -74,6 +74,10 @@ The Employee Management System is a web application built using Flask, allowing 
 2. Add, edit, or delete employee records from the dashboard.
 3. Track employee attendance and view statistics.
 
+## User Interface
+### Dashboard
+![Dashboard](demo/Picture1.png)
+
 ## Contributing
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature-branch`)
